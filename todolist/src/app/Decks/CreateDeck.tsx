@@ -14,7 +14,7 @@ const CreateDeck = () => {
     title: "",
     description: "",
     wallpaper: 0,
-    owner: "",
+    owner: 0,
     pfp: "",
     banner: "",
     created_at: "",
@@ -250,7 +250,7 @@ const CreateDeck = () => {
           </div>
 
           <div className="w-full flex justify-center mt-4">
-            <PrimaryButton title="Create" type="submit" />
+            <PrimaryButton title="Create" onClick={() => {}} />
           </div>
         </form>
       </div>

@@ -6,6 +6,14 @@ export type InputBoxProps = {
   type: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  icon: "email" | "password" | "key" | "user";
+  icon:
+    | "email"
+    | "password"
+    | "key"
+    | "user"
+    | "title"
+    | "description"
+    | "image"
+    | "number";
   height: "small" | "medium" | "large";
 };

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import InputBox from "../components/InputBox";
 import PrimaryButton from "../components/PrimaryButton";
 import supabase from "../utils/supabase";
-
+import { useUserStore } from "../store/useUserStore";
 type InputBoxType = {
   title: string;
   placeholder: string;
@@ -47,7 +47,7 @@ const Login = () => {
         //chequear si el usuario existe en la tabla de usuarios
         const { data: user, error: userError } = await supabase
           .from("Usuarios")
-          .select("nombre")
+          .select("id, authid, nombre, rol, foto_perfil, created_at")
           .eq("authid", data.user.id)
           .single();
 
@@ -56,6 +56,9 @@ const Login = () => {
           navigate("/createuser");
         } else {
           console.log("Usuario encontrado");
+          useUserStore.setState({
+            user: user,
+          });
           navigate("/dashboard");
         }
       }

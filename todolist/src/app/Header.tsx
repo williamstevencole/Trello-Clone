@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaUserEdit, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { FaUserEdit, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../store/useUserStore";
 import supabase from "../utils/supabase";
@@ -15,11 +15,14 @@ const Header = () => {
 
   const handleLogOut = async () => {
     await supabase.auth.signOut();
+    useUserStore.setState({
+      user: null,
+    });
     navigate("/");
   };
 
   return (
-    <div className="w-full h-20 bg-[#111111]">
+    <div className="w-full h-20 bg-[#111111] z-50">
       {/* Header */}
       <header className="w-full h-20  border-b border-white flex items-center justify-between px-6">
         {/* Deck Options */}
@@ -69,7 +72,7 @@ const Header = () => {
 
           {/* Dropdown Menu */}
           {showDropdown && (
-            <div className="absolute right-0 mt-2 w-80 bg-[#1a1a1a] border border-white rounded-lg shadow-lg py-2">
+            <div className="absolute right-0 mt-2 w-80 bg-[#1a1a1a] border border-white rounded-lg shadow-lg py-2 z-50">
               <h1 className="w-full text-left text-2xl px-4 py-2 text-white border-b border-white flex items-center gap-2">
                 {user?.nombre}
               </h1>

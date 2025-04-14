@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
@@ -14,9 +9,12 @@ import Dashboard from "./app/Dashboard";
 import WallpapersSection from "./app/Admin/WallpapersSection";
 import EditUser from "./app/Profile/EditUser";
 import CreateDeck from "./app/Decks/CreateDeck";
+import DeckDashboard from "./app/Decks/DeckDashboard";
+
 import supabase from "./utils/supabase";
 
 import "./App.css";
+import CreateUsers from "./app/Admin/CreateUsers";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -50,8 +48,9 @@ function App() {
       <Route path="/createuser" element={<CreateUser />} />
       <Route path="/edituser" element={<EditUser />} />
       <Route path="/wallpapers" element={<WallpapersSection />} />
-      <Route path="/createusers" element={<CreateUser />} />
+      <Route path="/createusers" element={<CreateUsers />} />
       <Route path="/createdeck" element={<CreateDeck />} />
+      <Route path="/deck/:id" element={<DeckDashboard />} />
     </Routes>
   );
 }

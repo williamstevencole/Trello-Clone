@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { UsuarioType } from "../../utils/databaseType";
 import { InputBoxProps } from "../../utils/InputBoxType";
 import Header from "../Header";
-
+import { useUserStore } from "../../store/useUserStore";
 const CreateUser = () => {
   const navigate = useNavigate();
 
@@ -83,6 +83,9 @@ const CreateUser = () => {
     }
 
     alert("Usuario creado con éxito ✅");
+    useUserStore.setState({
+      user: user,
+    });
     navigate("/dashboard");
   };
 
