@@ -26,7 +26,7 @@ const Header = () => {
       {/* Header */}
       <header className="w-full h-20  border-b border-white flex items-center justify-between px-6">
         {/* Deck Options */}
-        <div className="ml-10">
+        <div className="">
           <div className="flex gap-20">
             <button
               className="text-white hover:text-blue-400 transition-colors"

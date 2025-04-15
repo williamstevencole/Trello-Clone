@@ -1,4 +1,3 @@
-import { ChangeEvent } from "react";
 import {
   FaEnvelope,
   FaLock,
@@ -6,7 +5,6 @@ import {
   FaUser,
   FaComment,
   FaImage,
-  FaUserCircle,
 } from "react-icons/fa";
 import { InputBoxProps } from "../utils/InputBoxType";
 

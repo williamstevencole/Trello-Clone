@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase";
 
 interface DeckBoardProps {
@@ -17,7 +16,6 @@ const DeckBoard = ({ deckId }: DeckBoardProps) => {
   const [deckTitle, setDeckTitle] = useState<string>("");
   const [allUsers, setAllUsers] = useState<Member[]>([]);
   const [showAddMember, setShowAddMember] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDeckInfo = async () => {
@@ -72,7 +70,7 @@ const DeckBoard = ({ deckId }: DeckBoardProps) => {
 
   return (
     <div className="w-full px-6 py-2  bg-opacity-10 backdrop-blur-3xl flex items-center justify-between">
-      <h1 className="ml-20 text-xl font-bold text-black">{deckTitle}</h1>
+      <h1 className="text-xl font-bold text-white">{deckTitle}</h1>
 
       <div className="flex items-center gap-2 relative">
         {members.map((member) => (

@@ -17,3 +17,20 @@ export type DeckType = {
   description: string;
   created_at: string;
 };
+
+export type ColumnType = {
+  id: number;
+  deckid: number;
+  nombre: string;
+  posicion: number;
+  created_at: string;
+};
+
+export type CardType = {
+  id: number;
+  deckid: number;
+  DeckColumn: number;
+  Title: string;
+  Description: string;
+  created_at: string;
+};
