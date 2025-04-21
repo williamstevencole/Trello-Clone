@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InputBox from "../components/InputBox";
-import PrimaryButton from "../components/PrimaryButton";
-import supabase from "../utils/supabase";
-import { useUserStore } from "../store/useUserStore";
+import InputBox from "../../components/InputBox";
+import PrimaryButton from "../../components/PrimaryButton";
+import OAuthButton from "../../components/OAuthButton";
+import supabase from "../../utils/supabase";
+import { useUserStore } from "../../store/useUserStore";
+
 type InputBoxType = {
   title: string;
   placeholder: string;
@@ -31,6 +33,11 @@ const Login = () => {
     },
   ]);
 
+  const handleOAuthLogin = async (provider: "google" | "github") => {
+    const { error } = await supabase.auth.signInWithOAuth({ provider });
+    if (error) console.error("OAuth login error:", error.message);
+  };
+
   const handleLogin = async () => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -44,7 +51,6 @@ const Login = () => {
       }
 
       if (data) {
-        //chequear si el usuario existe en la tabla de usuarios
         const { data: user, error: userError } = await supabase
           .from("Usuarios")
           .select("id, authid, nombre, rol, foto_perfil, created_at")
@@ -55,10 +61,7 @@ const Login = () => {
           alert("Usuario no encontrado");
           navigate("/createuser");
         } else {
-          console.log("Usuario encontrado");
-          useUserStore.setState({
-            user: user,
-          });
+          useUserStore.setState({ user });
           navigate("/dashboard");
         }
       }
@@ -76,7 +79,7 @@ const Login = () => {
         <div className="w-[600px] h-[600px] border-2 border-white rounded-lg flex flex-col place-items-center ">
           <div className="w-full h-full flex flex-col justify-center items-center">
             {InputBoxes.map((inputBox, index) => (
-              <div key={index} className="mb-10">
+              <div key={index} className="mb-6">
                 <InputBox
                   title={inputBox.title}
                   placeholder={inputBox.placeholder}
@@ -92,7 +95,25 @@ const Login = () => {
                 />
               </div>
             ))}
+
             <PrimaryButton title="Login" onClick={handleLogin} />
+
+            <div className="mt-6 flex flex-col gap-3 w-full px-10">
+              <OAuthButton
+                provider="google"
+                onClick={() => handleOAuthLogin("google")}
+              />
+            </div>
+
+            <p className="text-white mt-4">
+              ¿No tienes una cuenta?{" "}
+              <span
+                onClick={() => navigate("/signup")}
+                className="text-blue-400 underline cursor-pointer hover:text-blue-600"
+              >
+                Regístrate aquí
+              </span>
+            </p>
           </div>
         </div>
       </div>

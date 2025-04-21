@@ -2,19 +2,19 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 
-import Login from "./app/Login";
-import AdminDashboard from "./app/Admin/AdminDashboard";
+import Login from "./app/Auth/Login";
 import CreateUser from "./app/Profile/CreateUser";
 import Dashboard from "./app/Dashboard";
 import WallpapersSection from "./app/Admin/WallpapersSection";
 import EditUser from "./app/Profile/EditUser";
 import CreateDeck from "./app/Decks/CreateDeck";
 import DeckDashboard from "./app/Decks/DeckDashboard";
+import SignupPage from "./app/Auth/SignUp";
+import AuthWatcher from "./utils/AuthWrapper";
 
 import supabase from "./utils/supabase";
 
 import "./App.css";
-import CreateUsers from "./app/Admin/CreateUsers";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -25,10 +25,6 @@ function App() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
-      if (!session) {
-        navigate("/");
-      }
 
       setLoading(false);
     };
@@ -41,17 +37,19 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/admindashboard" element={<AdminDashboard />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/createuser" element={<CreateUser />} />
-      <Route path="/edituser" element={<EditUser />} />
-      <Route path="/wallpapers" element={<WallpapersSection />} />
-      <Route path="/createusers" element={<CreateUsers />} />
-      <Route path="/createdeck" element={<CreateDeck />} />
-      <Route path="/deck/:id" element={<DeckDashboard />} />
-    </Routes>
+    <div>
+      <AuthWatcher />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/createuser" element={<CreateUser />} />
+        <Route path="/edituser" element={<EditUser />} />
+        <Route path="/wallpapers" element={<WallpapersSection />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/createdeck" element={<CreateDeck />} />
+        <Route path="/deck/:id" element={<DeckDashboard />} />
+      </Routes>
+    </div>
   );
 }
 

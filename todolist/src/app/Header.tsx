@@ -42,12 +42,6 @@ const Header = () => {
                 >
                   Wallpapers
                 </button>
-                <button
-                  className="text-white hover:text-blue-400 transition-colors"
-                  onClick={() => navigate("/createusers")}
-                >
-                  Create Users
-                </button>
               </div>
             )}
           </div>

@@ -5,6 +5,7 @@ import Header from "../Header";
 import DeckBoard from "./DeckBoard";
 import { ColumnType, CardType } from "../../utils/databaseType";
 import Column from "../../components/Column";
+import { useColumnReorder } from "../hooks/useColumnReorder";
 import {
   DndContext,
   DragEndEvent,
@@ -31,6 +32,7 @@ const DeckDashboard = () => {
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
   const sensors = useSensors(useSensor(PointerSensor));
+  const reorderColumns = useColumnReorder();
 
   const fetchDeck = async () => {
     const { data, error } = await supabase
@@ -170,26 +172,30 @@ const DeckDashboard = () => {
 
       if (activeIndex === -1 || overIndex === -1) return;
 
-      const newOrder = arrayMove(columns, activeIndex, overIndex);
-      setColumns(newOrder);
+      const reordered = arrayMove([...columns], activeIndex, overIndex);
 
       try {
-        for (let i = 0; i < newOrder.length; i++) {
-          await supabase
-            .from("DeckColumns")
-            .update({ posicion: -(i + 1000) })
-            .eq("id", newOrder[i].id);
-        }
+        await Promise.all(
+          reordered.map((col, index) =>
+            supabase
+              .from("DeckColumns")
+              .update({ posicion: -(index + 1) })
+              .eq("id", col.id)
+          )
+        );
 
-        for (let i = 0; i < newOrder.length; i++) {
-          await supabase
-            .from("DeckColumns")
-            .update({ posicion: i })
-            .eq("id", newOrder[i].id);
-        }
-      } catch (error) {
-        console.error("Error updating column positions:", error);
-        setColumns(columns);
+        await Promise.all(
+          reordered.map((col, index) =>
+            supabase
+              .from("DeckColumns")
+              .update({ posicion: index })
+              .eq("id", col.id)
+          )
+        );
+
+        setColumns(reordered);
+      } catch (err) {
+        console.error("❌ Error reordenando columnas:", err);
       }
     }
   };
